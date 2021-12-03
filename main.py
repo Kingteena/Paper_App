@@ -1,16 +1,47 @@
-# This is a sample Python script.
-
-# Press ⌃R to execute it or replace it with your code.
-# Press Double ⇧ to search everywhere for classes, files, tool windows, actions, and settings.
-
-
-def print_hi(name):
-    # Use a breakpoint in the code line below to debug your script.
-    print(f'Hi, {name}')  # Press ⌘F8 to toggle the breakpoint.
+from flask import Flask, render_template
+from wtforms import SubmitField, RadioField
+from flask_bootstrap import Bootstrap
+from flask_wtf import FlaskForm
+from flask_sqlalchemy import SQLAlchemy
+from wtforms.validators import DataRequired
 
 
-# Press the green button in the gutter to run the script.
-if __name__ == '__main__':
-    print_hi('PyCharm')
+class AnswerSheet(FlaskForm):
+    answer = RadioField("Answer", choices=[('A', 'A'), ('B', 'B'), ('C', 'C'), ('D', 'D')], validators=[DataRequired()])
+    submit = SubmitField(label="Check Answer")
 
-# See PyCharm help at https://www.jetbrains.com/help/pycharm/
+
+app = Flask(__name__)
+Bootstrap(app)
+app.secret_key = "ailsdhgkuasgiuasguasguoasgu"
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///Questions.db'
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+db = SQLAlchemy(app)
+
+
+class Question(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    image = db.Column(db.String(250), nullable=False)
+    year = db.Column(db.String(250), nullable=False)
+    chapter = db.Column(db.String(250), nullable=False)
+    answer = db.Column(db.String(250), nullable=False)
+
+@app.route("/")
+def home():
+    return render_template("index.html")
+
+
+@app.route('/<int:question_id>', methods=['GET', 'POST'])
+def question(question_id):
+    answer_sheet = AnswerSheet()
+    question = Question.query.filter_by(id=question_id).first()
+    if answer_sheet.validate_on_submit():
+        if answer_sheet.answer.data == question.answer:
+            return render_template("answer_question.html", form=answer_sheet, question=question, correct=True)
+        else:
+            return render_template("answer_question.html", form=answer_sheet, question=question, wrong=True)
+    return render_template("answer_question.html", form=answer_sheet, question=question)
+
+
+if __name__ == "__main__":
+    app.run(debug=True)
