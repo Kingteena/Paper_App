@@ -3,11 +3,12 @@ from wtforms import SubmitField, RadioField
 from flask_bootstrap import Bootstrap
 from flask_wtf import FlaskForm
 from flask_sqlalchemy import SQLAlchemy
-from wtforms.validators import DataRequired
+from wtforms.validators import DataRequired, InputRequired
 
 
 class AnswerSheet(FlaskForm):
-    answer = RadioField("Answer", choices=[('A', 'A'), ('B', 'B'), ('C', 'C'), ('D', 'D')], validators=[DataRequired()])
+    answer = RadioField("answer",
+                        choices=[('A', 'A'), ('B', 'B'), ('C', 'C'), ('D', 'D')],)
     submit = SubmitField(label="Check Answer")
 
 
@@ -36,10 +37,8 @@ def question(question_id):
     answer_sheet = AnswerSheet()
     question = Question.query.filter_by(id=question_id).first()
     if answer_sheet.validate_on_submit():
-        if answer_sheet.answer.data == question.answer:
-            return render_template("answer_question.html", form=answer_sheet, question=question, correct=True)
-        else:
-            return render_template("answer_question.html", form=answer_sheet, question=question, wrong=True)
+        print(answer_sheet.answer.data)
+        return render_template("answer_question.html", form=answer_sheet, question=question, user_answer=answer_sheet.answer.data, section="answer")
     return render_template("answer_question.html", form=answer_sheet, question=question)
 
 

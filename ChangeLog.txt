@@ -1,0 +1,7 @@
+Alpha 1.0
+Created HTML File and Flask Server
+Added Forms and Data Validation using WTF-Forms
+Created Database with questions and answers using SQLite
+
+Alpha 1.1
+Added CSS and Design improvments

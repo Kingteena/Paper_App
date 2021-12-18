@@ -1,0 +1,54 @@
+/* Question section */
+
+body{
+    margin:0;
+    text-align: left;
+    font-size: 2rem;
+    background-color: #DAE1E7;
+ }
+
+ .question-picture{
+    max-width: 100%;
+ }
+
+.navbar{
+    background-color: #27496D;
+    colour: #fff;
+    padding-bottom: 1rem;
+    margin-bottom: 3.5rem;
+}
+
+form{}
+
+.nav-item{
+    padding: 0px 18px;
+}
+
+.nav-link{
+    font-size: 1.2rem;
+    font-weight: 300;
+}
+
+.navbar-brand{
+    padding: 0px 18px;
+}
+
+.container-fluid{
+
+}
+
+/* Answer section */
+
+
+.card{
+    margin: 1rem;
+    border-radius: 25px;
+}
+
+.card-text{
+    font-size: 1.25rem;
+}
+
+.card-title{
+    font-size: 1.75rem;
+}
