@@ -6,3 +6,8 @@ Created Database with questions and answers using SQLite
 Alpha 1.1
 Added CSS and Design improvments
 
+Alpha 1.2
+Added the ability to add new questions, refactored code and slightly future-proofed it.
+
+Alpha 2.0
+Got it ready for deployment
