@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+
+
+{% block content %}
+        {% for user in users: %}
+            <p>{{user.email}}</p> <br>
+        {% endfor %}
+    <form action="{{url_for('promote_user')}}" method="post">
+        Who you wanna promote? <br>
+        <input type="text" placeholder="email" name="email">
+        <button class="btn btn-primary" type="submit">PROMOTE</button>
+    </form>
+    {{super()}}
+{% endblock %}

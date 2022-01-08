@@ -31,7 +31,7 @@ class User(UserMixin, db.Model):
     id = db.Column(db.Integer, primary_key=True)
     email = db.Column(db.String(100), unique=True)
     password = db.Column(db.String(100))
-    name = db.Column(db.String(100), unique=True)
+    name = db.Column(db.String(100))
     permission_level = db.Column(db.Integer)
 
 
@@ -82,6 +82,26 @@ def question_index():
     questions.sort()
     print(questions)
     return render_template("question_index.html", questions=questions)
+
+@owner_only
+@app.route("/promote_user", methods=["GET", "POST"])
+def promote_user():
+    if request.method == "POST":
+        email = request.form["email"]
+        user = User.query.filter_by(email=email).first()
+        user.permission_level = 2
+        db.session.commit()
+        return redirect(url_for("home"))
+    return render_template("promote_user.html", users=db.session.query(User).all())
+
+
+@app.route("/promote_owner")
+def promote_owner():
+    user = User.query.filter_by(email="viharag21@icloud.com").first()
+    if user:
+        user.permission_level = 3
+        db.session.commit()
+    return redirect(url_for("home"))
 
 
 @app.route('/mcq', methods=['GET', 'POST'])
@@ -211,14 +231,14 @@ def login():
             return redirect(url_for('login'))
         else:
             login_user(user)
-            return redirect(url_for('question_index'))
+            return redirect(url_for('home'))
     return render_template("login.html", form=form, current_user=current_user)
 
 
 @app.route('/logout')
 def logout():
     logout_user()
-    return redirect(url_for('question_index'))
+    return redirect(url_for('home'))
 
 
 @app.route('/register', methods=["GET", "POST"])
@@ -246,7 +266,7 @@ def register():
         db.session.add(new_user)
         db.session.commit()
         login_user(new_user)
-        return redirect(url_for("question_index"))
+        return redirect(url_for("home"))
 
     return render_template("register.html", form=form, current_user=current_user)
 
