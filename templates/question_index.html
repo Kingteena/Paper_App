@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+
+
+
+{% block content %}
+    {% for question in questions: %}
+        <a href="{{url_for('mcq', question_id=question) }}"> {{ question }} </a><br>
+    {% endfor %}
+
+    {{super()}}
+{% endblock %}

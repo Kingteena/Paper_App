@@ -1,12 +1,31 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Home Home</title>
-</head>
-<body style="background-color: #DAE1E7;">
-  {% for i in range(10): %}
-    <a href="/{{ i + 1 }}"> Question {{i+1}}</a> <br>
-  {% endfor %}
-</body>
-</html>
+{% extends "base.html" %}
+
+{% block content %}
+    <div class="container-fluid">
+        <h1>Hello There!</h1>
+        <br><br>
+        <p>
+            If this was an actual release this is where you would have seen a wonderful home page <br>
+            Well Surprise! It's not. <br><br>
+            If you know me, hello yes hi please test app and be free labour<br>
+            If not, how did you find me? (MOM COME PICK ME UP IM SCARED)
+            <br><br><br>
+            Anyway you should probably start by making an account using the button in the navigation bar up top<br>
+            <em>Ps: You make a new account using Register not Login. (Im looking at you <b>Negha</b>)</em>
+            <br><br>
+            You can then click on <a href="{{ url_for('question_index')}}">this</a> to look at my
+                                        <strike>expansive</strike> very limited amount of papers
+            <br><br>
+            If you ask me to give you admin privileges, after I give it to you, you can go over
+            <a href="{{ url_for('add_question')}}">here</a>to actually put questions into the database. <br>
+            (Dont get carried away cause this can and will get deleted)
+            <br><br>
+            Expect updates to the site every so often if and when I get the motivation to be productive.
+            <br>
+            <em>Ps: Come back to this site by clicking on the logo (right now it is <b>Paper App</b>)</em>
+        </p>
+    </div>
+<br><br>
+
+{{super()}}
+{% endblock %}

@@ -1,65 +1,32 @@
 {% import "bootstrap/wtf.html" as wtf %}
+{% extends "base.html" %}
 
-<!DOCTYPE html>
-<html lang="en" xmlns="http://www.w3.org/1999/html" xmlns="http://www.w3.org/1999/html">
-<head>
-    <meta charset="UTF-8">
-    <title> Question {{ question.id }} </title>
-
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
-    <link href="static/css/styles.css" rel="stylesheet">
-
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
-
-    {% if section %}
-        <script>
-            $(function() {
-                location.hash = "#{{ section }}"
-            });
-        </script>
-    {% endif %}
-
-</head>
-<body>
-
+{% block content %}
     <section class="question-section" id="question">
 
-        <nav class="navbar sticky-top navbar-expand-lg navbar-dark">
-                  <a class="navbar-brand" href="/">Paper App</a>
-                  <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-                      <span class="navbar-toggler-icon"></span>
-                  </button>
-                  <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                      <ul class="navbar-nav ms-auto">
-                          <li class="nav-item">
-                              <a class="nav-link">Stuff</a>
-                          </li>
-                          <li class="nav-item">
-                              <a class="nav-link">Resources</a>
-                          </li>
-                          <li class="nav-item">
-                              <a class="nav-link">Sign Up/Login</a>
-                          </li>
-                      </ul>
-                  </div>
-              </nav>
+
 
         <div class="container-fluid">
 
 
             <div class="row">
                 <div class="col-lg-8">
-                    <img class="question-picture" src="{{question.image}}"> <br><br><br>
+                    <img class="question-picture pdf" src="{{ 'static/questions/' ~ question.question_id ~ '.pdf' }}"> <br><br><br>
                 </div>
                 <div class="col-lg-4">
                     {{ wtf.quick_form(form, novalidate=False, button_map={"submit": "primary"}) }}
+                    <br>
+                    {% if request.method == "POST" and question.question_id[-1]|int < 40%}
+                        {% set next_question_id = question.question_id[:-1] ~ (question.question_id[-1]|int + 1) %}
+                        <a class="btn btn-primary" name="next" href="{{url_for('mcq', question_id=next_question_id) }}">Next question</a>
+                    {% endif %}
                 </div>
             </div>
         </div>
     </section>
     <br>
     <section class="answer-section" id="answer">
-        {% if request.method == "POST": %}
+        {% if request.method == "POST"%}
             {%  if question.answer == user_answer: %}
                 <div class="card text-center text-white bg-success mb-3">
                     <div class="card-body">
@@ -71,7 +38,7 @@
                 <div class="card text-center text-white bg-danger mb-3">
                     <div class="card-body">
                          <h5 class="card-title">You got the answer wrong!</h5>
-                         <p class="card-text">The answer was infact {{question.answer}}. Better luck next time...</p>
+                         <p class="card-text">The answer was infact {{question.answer}}, not your answer of {{ user_answer }}. Better luck next time...</p>
                     </div>
                 </div>
             {% endif %}
@@ -84,5 +51,6 @@
             </div>
         {% endif %}
     </section>
-</body>
-</html>
+
+    {{super()}}
+{% endblock %}

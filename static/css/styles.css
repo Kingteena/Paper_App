@@ -5,10 +5,18 @@ body{
     text-align: left;
     font-size: 2rem;
     background-color: #DAE1E7;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
  }
 
+ a{
+    font-size: 1.5rem
+ }
+
+
  .question-picture{
-    max-width: 100%;
+    width: 100%;
  }
 
 .navbar{
@@ -51,4 +59,18 @@ form{}
 
 .card-title{
     font-size: 1.75rem;
+}
+
+/* © */
+
+.copyright{
+    text-align: center;
+    background-color: white;
+    margin-top: auto;
+    height: 50px;
+}
+
+.pdf{
+    background-color: white;
+
 }

@@ -1,0 +1,11 @@
+{% import "bootstrap/wtf.html" as wtf %}
+{% extends "base.html" %}
+
+{% block content %}
+    <div class="container-fluid">
+    <h2>WELCOME HOME, THESEAUS!</h2>
+
+    {{ wtf.quick_form(form, novalidate=False, button_map={"submit": "primary"}) }}
+    </div>
+    {{super()}}
+{% endblock %}
