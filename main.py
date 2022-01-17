@@ -178,6 +178,7 @@ def add_mcq():
                 is_mcq=True
             )
             db.session.add(new_question)
+            db.session.commit()
 
         for f_name in os.listdir(f"{app.static_folder}/questions_predit"):
             if f_name.startswith(qp) and f_name.endswith('.pdf'):
@@ -185,7 +186,6 @@ def add_mcq():
         if os.path.exists(qp):
             os.remove(qp)
 
-        db.session.commit()
         flash("Sucessfully commited new questions")
         return redirect(url_for("question_index"))
 
