@@ -125,7 +125,7 @@ def add_question():
         qp = form.qp.data
         qp.filename = f"{form.subject_code.data}_{form.session_code.data}_qp_{form.paper_code.data}.pdf"
         qp_filename = secure_filename(qp.filename)
-        qp.save(os.path.join(app.static_folder, 'static/questions_predit', qp_filename))
+        qp.save(os.path.join(app.static_folder, 'questions_predit', qp_filename))
         ms = form.ms.data
 
         if paper_type == "mcq":
