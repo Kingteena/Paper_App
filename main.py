@@ -125,7 +125,7 @@ def add_question():
         qp = form.qp.data
         qp.filename = f"{form.subject_code.data}_{form.session_code.data}_qp_{form.paper_code.data}.pdf"
         qp_filename = secure_filename(qp.filename)
-        qp.save(os.path.join(app.static_folder, 'questions_predit', qp_filename))
+        qp.save(os.path.join(app.static_folder, 'static/questions_predit', qp_filename))
         ms = form.ms.data
 
         if paper_type == "mcq":
@@ -141,7 +141,7 @@ def add_question():
         elif paper_type == "nmcq":
             ms.filename = f"{form.subject_code.data}_{form.session_code.data}_ms_{form.paper_code.data}.pdf"
             ms_filename = secure_filename(ms.filename)
-            ms.save(os.path.join(app.static_folder, 'questions_predit', ms_filename))
+            ms.save(os.path.join(app.static_folder, 'static/questions_predit', ms_filename))
             return redirect(url_for("add_nmcq",
                                     subject=form.subject_code.data,
                                     session=form.session_code.data,
